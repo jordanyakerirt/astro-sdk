@@ -21,7 +21,7 @@ def top_five_animations(input_table: Table):
 
 with DAG(
     "calculate_popular_movies",
-    schedule_interval=None,
+    schedule=None,
     start_date=datetime(2000, 1, 1),
     catchup=False,
 ) as dag:

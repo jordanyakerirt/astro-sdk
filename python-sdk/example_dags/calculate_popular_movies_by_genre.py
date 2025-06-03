@@ -21,7 +21,7 @@ def top_movies_by_genre(input_df: pd.DataFrame):
 
 with DAG(
     "calculate_popular_movies_by_genre",
-    schedule_interval=None,
+    schedule=None,
     start_date=datetime(2022, 1, 1),
     catchup=False,
 ) as dag:

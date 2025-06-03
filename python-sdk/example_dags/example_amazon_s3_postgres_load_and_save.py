@@ -18,7 +18,7 @@ s3_bucket = os.getenv("S3_BUCKET", "s3://tmp9")
 
 @dag(
     default_args=default_args,
-    schedule_interval=None,
+    schedule=None,
     start_date=timezone.utcnow(),
     tags=["demo"],
     catchup=False,

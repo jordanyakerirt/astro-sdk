@@ -37,7 +37,7 @@ dag = DAG(
     dag_id="example_amazon_s3_postgres",
     start_date=datetime(2019, 1, 1),
     max_active_runs=3,
-    schedule_interval=timedelta(minutes=30),
+    schedule=timedelta(minutes=30),
     default_args=default_args,
 )
 
@@ -75,7 +75,7 @@ dag = DAG(
     dag_id="example_amazon_s3_postgres",
     start_date=datetime(2019, 1, 1),
     max_active_runs=3,
-    schedule_interval=timedelta(minutes=30),
+    schedule=timedelta(minutes=30),
     default_args=default_args,
     on_success_callback=clear_temp_table_callback,
     on_failure_callback=clear_temp_table_callback,

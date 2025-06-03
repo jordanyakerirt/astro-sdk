@@ -2,7 +2,7 @@ import pathlib
 
 import pandas as pd
 import pytest
-from airflow import AirflowException
+from airflow.exceptions import AirflowException
 
 from astro import sql as aql
 from tests.sql.operators import utils as test_utils

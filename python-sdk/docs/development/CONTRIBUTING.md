@@ -66,7 +66,7 @@ Before you submit a pull request (PR), check that it meets these guidelines:
 -   Include tests unit tests and example DAGs (wherever applicable) to your pull request.
     It will help you make sure you do not break the build with your PR and that you help increase coverage.
 
--   [Rebase your fork](http://stackoverflow.com/a/7244456/1110993), and resolve all conflicts.
+-   Rebase your fork, and resolve all conflicts.
 
 -   When merging PRs, Committer will use **Squash and Merge** which means then your PR will be merged as one commit,
     regardless of the number of commits in your PR.

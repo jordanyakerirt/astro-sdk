@@ -41,7 +41,7 @@ def handle_result(result):
 
 with DAG(
     dag_id="example_dynamic_map_task",
-    schedule_interval=None,
+    schedule=None,
     start_date=datetime(2022, 1, 1),
     catchup=False,
     tags=["airflow_version:2.3.0"],

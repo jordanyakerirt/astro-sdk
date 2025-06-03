@@ -214,7 +214,7 @@ jobs:
       AZURE_WASB_CONN_STRING: ${{ secrets.AZURE_WASB_CONN_STRING }}
       AZURE_WASB_ACCESS_KEY: ${{ secrets.AZURE_WASB_ACCESS_KEY }}
 
-  Run-Unit-tests-Airflow-2-8:
+  Run-Unit-tests-Airflow-3-0-1:
     strategy:
       matrix:
         version: [ '3.8', '3.9', '3.10', '3.11' ]
@@ -256,14 +256,14 @@ jobs:
           sudo apt update
           sudo apt-get install pkg-config libxml2-dev libxmlsec1-dev libxmlsec1-openssl
       - run: pip3 install nox
-      - run: nox -s "test-${{ matrix.version }}(airflow='2.8')" -- tests/ --cov=src --cov-report=xml --cov-branch
+      - run: nox -s "test-${{ matrix.version }}(airflow='3.0.1')" -- tests/ --cov=src --cov-report=xml --cov-branch
       - name: Upload coverage
         uses: actions/upload-artifact@v2
         with:
           name: coverage-unit-test
           path: ./python-sdk/.coverage
 
-  Run-load-file-Integration-Airflow-2-8:
+  Run-load-file-Integration-Airflow-3-0-1:
     if: >-
       github.event_name == 'push' ||
       (
@@ -336,7 +336,7 @@ jobs:
           sudo apt update
           sudo apt-get install pkg-config libxml2-dev libxmlsec1-dev libxmlsec1-openssl
       - run: pip3 install nox
-      - run: nox -s "test-3.10(airflow='2.8')" -- tests_integration/ -k "test_load_file.py and not redshift" --splits 3 --group ${{ matrix.group }} --store-durations --durations-path /tmp/durations-${{ matrix.group }} --cov=src --cov-report=xml --cov-branch
+      - run: nox -s "test-3.10(airflow='3.0.1')" -- tests_integration/ -k "test_load_file.py and not redshift" --splits 3 --group ${{ matrix.group }} --store-durations --durations-path /tmp/durations-${{ matrix.group }} --cov=src --cov-report=xml --cov-branch
       - run: cat /tmp/durations-${{ matrix.group }}
       - name: Upload coverage
         uses: actions/upload-artifact@v2
@@ -364,7 +364,7 @@ jobs:
       AIRFLOW__ASTRO_SDK__DATABRICKS_CLUSTER_ID: ${{ secrets.DATABRICKS_CLUSTER_ID }}
       AZURE_WASB_CONN_STRING: ${{ secrets.AZURE_WASB_CONN_STRING }}
 
-  Run-example-dag-Integration-Airflow-2-8:
+  Run-example-dag-Integration-Airflow-3-0-1:
     if: >-
       github.event_name == 'push' ||
       (
@@ -437,7 +437,7 @@ jobs:
           sudo apt update
           sudo apt-get install pkg-config libxml2-dev libxmlsec1-dev libxmlsec1-openssl
       - run: pip3 install nox
-      - run: nox -s "test-3.10(airflow='2.8')" -- tests_integration/ -k "test_example_dags.py and not redshift" --splits 3 --group ${{ matrix.group }} --store-durations --durations-path /tmp/durations-${{ matrix.group }} --cov=src --cov-report=xml --cov-branch
+      - run: nox -s "test-3.10(airflow='3.0.1')" -- tests_integration/ -k "test_example_dags.py and not redshift" --splits 3 --group ${{ matrix.group }} --store-durations --durations-path /tmp/durations-${{ matrix.group }} --cov=src --cov-report=xml --cov-branch
       - run: cat /tmp/durations-${{ matrix.group }}
       - name: Upload coverage
         uses: actions/upload-artifact@v2
@@ -465,7 +465,7 @@ jobs:
       AIRFLOW__ASTRO_SDK__DATABRICKS_CLUSTER_ID: ${{ secrets.DATABRICKS_CLUSTER_ID }}
       AZURE_WASB_CONN_STRING: ${{ secrets.AZURE_WASB_CONN_STRING }}
 
-  Run-Integration-tests-Airflow-2-8:
+  Run-Integration-tests-Airflow-3-0-1:
     if: >-
       github.event_name == 'push' ||
       (
@@ -538,7 +538,7 @@ jobs:
           sudo apt update
           sudo apt-get install pkg-config libxml2-dev libxmlsec1-dev libxmlsec1-openssl
       - run: pip3 install nox
-      - run: nox -s "test-3.10(airflow='2.8')" -- tests_integration/ -k "not test_load_file.py and not test_example_dags.py and not redshift" --splits 11 --group ${{ matrix.group }} --store-durations --durations-path /tmp/durations-${{ matrix.group }} --cov=src --cov-report=xml --cov-branch
+      - run: nox -s "test-3.10(airflow='3.0.1')" -- tests_integration/ -k "not test_load_file.py and not test_example_dags.py and not redshift" --splits 11 --group ${{ matrix.group }} --store-durations --durations-path /tmp/durations-${{ matrix.group }} --cov=src --cov-report=xml --cov-branch
       - run: cat /tmp/durations-${{ matrix.group }}
       - name: Upload coverage
         uses: actions/upload-artifact@v2
@@ -605,10 +605,10 @@ jobs:
   Code-Coverage:
     if: github.event.action != 'labeled'
     needs:
-      - Run-Unit-tests-Airflow-2-8
-      - Run-Integration-tests-Airflow-2-8
-      - Run-load-file-Integration-Airflow-2-8
-      - Run-example-dag-Integration-Airflow-2-8
+      - Run-Unit-tests-Airflow-3-0-1
+      - Run-Integration-tests-Airflow-3-0-1
+      - Run-load-file-Integration-Airflow-3-0-1
+      - Run-example-dag-Integration-Airflow-3-0-1
       - Run-Optional-Packages-tests-python-sdk
     runs-on: ubuntu-latest
     steps:
@@ -640,9 +640,9 @@ jobs:
   collect-durations:
     runs-on: ubuntu-latest
     needs:
-      - Run-Unit-tests-Airflow-2-8
-      - Run-Integration-tests-Airflow-2-8
-      - Run-load-file-Integration-Airflow-2-8
+      - Run-Unit-tests-Airflow-3-0-1
+      - Run-Integration-tests-Airflow-3-0-1
+      - Run-load-file-Integration-Airflow-3-0-1
     steps:
       - uses: actions/checkout@v3
       - name: Cache
@@ -670,10 +670,10 @@ jobs:
     if: github.event_name == 'release'
     name: Build and publish Python 🐍 distributions 📦 to PyPI
     needs:
-      - Run-Unit-tests-Airflow-2-8
-      - Run-Integration-tests-Airflow-2-8
-      - Run-load-file-Integration-Airflow-2-8
-      - Run-example-dag-Integration-Airflow-2-8
+      - Run-Unit-tests-Airflow-3-0-1
+      - Run-Integration-tests-Airflow-3-0-1
+      - Run-load-file-Integration-Airflow-3-0-1
+      - Run-example-dag-Integration-Airflow-3-0-1
       - Run-Optional-Packages-tests-python-sdk
       - Generate-Constraints
     runs-on: ubuntu-latest

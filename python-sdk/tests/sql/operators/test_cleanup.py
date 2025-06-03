@@ -5,10 +5,9 @@ from unittest import mock
 import pytest
 from airflow import DAG, AirflowException, __version__ as airflow_version
 from airflow.executors.local_executor import LocalExecutor
-from airflow.executors.sequential_executor import SequentialExecutor
 from airflow.models.dagrun import DagRun
 from airflow.models.taskinstance import TaskInstance
-from airflow.operators.bash import BashOperator
+from airflow.providers.standard.operators.bash import BashOperator
 from airflow.settings import Session
 from airflow.utils.state import State
 from airflow.utils.timezone import datetime
@@ -73,7 +72,7 @@ def test_error_raised_with_blocking_op_executors(
     single_worker_mode,
 ):
     """
-    Test that when single_worker_mode is used (SequentialExecutor or DebugExecutor) an
+    Test that when single_worker_mode is used (LocalExecutor or DebugExecutor) an
     error is raised if the other tasks are still running when cleanup is ran.
 
     This is because Cleanup will block the entire thread and will cause deadlock until
@@ -91,7 +90,7 @@ def test_error_raised_with_blocking_op_executors(
         with pytest.raises(AirflowException) as exec_info:
             cleanup_task.execute({"dag_run": dr})
         assert exec_info.value.args[0] == (
-            "When using a synchronous executor (e.g. SequentialExecutor and DebugExecutor), "
+            "When using a synchronous executor (e.g. LocalExecutor and DebugExecutor), "
             "the first run of this task will fail on purpose, "
             "so the single worker thread is unblocked to execute other tasks. "
             "The task is set up for retry and eventually works."
@@ -107,10 +106,10 @@ def test_error_raised_with_blocking_op_executors(
 @pytest.mark.parametrize(
     "executor_in_job, executor_in_cfg, expected_val",
     [
-        (SequentialExecutor(), "SequentialExecutor", True),
+        (LocalExecutor(), "LocalExecutor", True),
         (LocalExecutor(), "LocalExecutor", False),
         (None, "LocalExecutor", False),
-        (None, "SequentialExecutor", True),
+        (None, "LocalExecutor", True),
     ],
 )
 def test_single_worker_mode_backfill(monkeypatch, executor_in_job, executor_in_cfg, expected_val):
@@ -144,10 +143,10 @@ def test_single_worker_mode_backfill(monkeypatch, executor_in_job, executor_in_c
 @pytest.mark.parametrize(
     "executor_in_job,executor_in_cfg,expected_val",
     [
-        (SequentialExecutor(), "LocalExecutor", True),
+        (LocalExecutor(), "LocalExecutor", True),
         (LocalExecutor(), "LocalExecutor", False),
         (None, "LocalExecutor", False),
-        (None, "SequentialExecutor", True),
+        (None, "LocalExecutor", True),
     ],
 )
 def test_single_worker_mode_backfill_airflow_2_5(executor_in_job, executor_in_cfg, expected_val):
@@ -176,10 +175,10 @@ def test_single_worker_mode_backfill_airflow_2_5(executor_in_job, executor_in_cf
 @pytest.mark.parametrize(
     "executor_in_job,executor_in_cfg,expected_val",
     [
-        (SequentialExecutor(), "SequentialExecutor", True),
+        (LocalExecutor(), "LocalExecutor", True),
         (LocalExecutor(), "LocalExecutor", False),
         (None, "LocalExecutor", False),
-        (None, "SequentialExecutor", True),
+        (None, "LocalExecutor", True),
     ],
 )
 def test_single_worker_mode_scheduler_job(monkeypatch, executor_in_job, executor_in_cfg, expected_val):
@@ -215,7 +214,7 @@ def test_single_worker_mode_scheduler_job(monkeypatch, executor_in_job, executor
     "executor_in_job,expected_val",
     [
         ("LocalExecutor", False),
-        ("SequentialExecutor", True),
+        ("LocalExecutor", True),
         ("CeleryExecutor", False),
     ],
 )

@@ -12,7 +12,7 @@ START_DATE = datetime(2000, 1, 1)
 
 with DAG(
     "example_transform_file",
-    schedule_interval=None,
+    schedule=None,
     start_date=START_DATE,
     catchup=False,
 ) as dag:

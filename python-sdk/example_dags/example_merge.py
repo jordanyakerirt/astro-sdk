@@ -24,7 +24,7 @@ dag = DAG(
     dag_id="example_merge_bigquery",
     start_date=datetime(2019, 1, 1),
     max_active_runs=3,
-    schedule_interval=None,
+    schedule=None,
     default_args=default_args,
     catchup=False,
 )

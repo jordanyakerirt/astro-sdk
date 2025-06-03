@@ -166,7 +166,7 @@ def create_dag(database_name, table_args, dataset, global_db_kwargs):
         if benchmark_settings.publish_benchmarks:
             export_profile_data_to_bq(profile)
 
-    with DAG(dag_name, schedule_interval=None, start_date=START_DATE) as dag:
+    with DAG(dag_name, schedule=None, start_date=START_DATE) as dag:
         chunk_size = int(os.getenv("ASTRO_CHUNK_SIZE", str(DEFAULT_CHUNK_SIZE)))
         table_metadata = table_args.pop("metadata", {})
         if table_metadata:

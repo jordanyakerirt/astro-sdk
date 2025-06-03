@@ -30,4 +30,4 @@ Add any other context about the feature request here.
 - [ ] Exception handling in case of errors
 - [ ] Logging (are we exposing useful information to the user? e.g. source and destination)
 - [ ] Improve the documentation (README, Sphinx, and any other relevant)
-- [ ] How to use Guide for the feature ([example](https://airflow.apache.org/docs/apache-airflow-providers-postgres/stable/operators/postgres_operator_howto_guide.html))
+- [ ] How to use Guide for the feature ([example](https://airflow.apache.org/docs/apache-airflow-providers-postgres/stable/operators.html))

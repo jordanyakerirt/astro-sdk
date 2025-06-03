@@ -63,7 +63,7 @@ def union_table_and_dataframe(input_table: Table, input_dataframe: pd.DataFrame)
 
 with DAG(
     "example_transform_mssql",
-    schedule_interval=None,
+    schedule=None,
     start_date=START_DATE,
     catchup=False,
     default_args=default_args,
