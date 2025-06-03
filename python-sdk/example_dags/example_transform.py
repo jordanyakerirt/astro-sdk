@@ -74,7 +74,7 @@ def union_table_and_dataframe(input_table: Table, input_dataframe: pd.DataFrame)
 
 with DAG(
     "example_transform",
-    schedule_interval=None,
+    schedule=None,
     start_date=START_DATE,
     catchup=False,
 ) as dag:

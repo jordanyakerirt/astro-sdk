@@ -28,7 +28,7 @@ class File(LoggingMixin, Dataset):
     :param normalize_config: parameters in dict format of pandas json_normalize() function.
     """
 
-    path: str
+    path: str | None = None
     conn_id: str | None = None
     filetype: constants.FileType | None = None
     normalize_config: dict | None = None
@@ -36,7 +36,10 @@ class File(LoggingMixin, Dataset):
     is_bytes: bool = False
 
     uri: str = field(init=False)
-    extra: dict | None = field(init=False, factory=dict)
+
+    def __new__(cls, *args, **kwargs):
+        name = kwargs.get("name") or kwargs.get("path") or args and args[0] or ""
+        path = kwargs.get("path") or args and args[0] or ""
 
     template_fields = (
         "path",

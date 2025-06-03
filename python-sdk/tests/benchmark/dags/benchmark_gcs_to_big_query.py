@@ -26,7 +26,7 @@ default_args = {
 
 dag = models.DAG(
     dag_id="benchmark_gcs_to_bigquery_operator",
-    schedule_interval=None,
+    schedule=None,
     start_date=datetime(2022, 1, 1),
     catchup=False,
     default_args=default_args,

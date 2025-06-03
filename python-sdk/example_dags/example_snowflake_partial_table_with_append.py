@@ -71,7 +71,7 @@ def create_table(table: Table):
 
 @dag(
     start_date=datetime(2021, 12, 1),
-    schedule_interval=None,
+    schedule=None,
     catchup=False,
     default_args={
         "email_on_failure": False,

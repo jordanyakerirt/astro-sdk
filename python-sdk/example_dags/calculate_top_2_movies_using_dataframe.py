@@ -19,7 +19,7 @@ def top_five_animations(input_df: pd.DataFrame):
 
 with DAG(
     "calculate_top_2_movies_using_dataframe",
-    schedule_interval=None,
+    schedule=None,
     start_date=datetime(2022, 1, 1),
     catchup=False,
 ) as dag:

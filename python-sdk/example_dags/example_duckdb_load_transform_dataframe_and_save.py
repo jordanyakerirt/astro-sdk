@@ -31,7 +31,7 @@ def aggregate_data(df: pd.DataFrame):
 
 @dag(
     start_date=datetime(2021, 1, 1),
-    schedule_interval=None,
+    schedule=None,
     catchup=False,
 )
 def example_duckdb_load_transform_dataframe_and_save():

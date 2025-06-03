@@ -37,7 +37,7 @@ default_args = {
 
 with DAG(
     dag_id="example_dynamic_task_template",
-    schedule_interval=None,
+    schedule=None,
     start_date=datetime(2022, 1, 1),
     catchup=False,
     tags=["airflow_version:2.3.0"],

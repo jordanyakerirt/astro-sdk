@@ -15,12 +15,18 @@ def dev(session: nox.Session) -> None:
     This is useful for setting up IDE for autocompletion etc. Point the
     development environment to ``.nox/dev``.
     """
+    env = {
+        "CFLAGS": "-I$(brew --prefix openssl)/include",
+        "LDFLAGS": "-L$(brew --prefix openssl)/lib -L/usr/local/opt/openssl/lib",
+        "CPPFLAGS": "-I$(brew --prefix openssl)/include"
+    }
     session.install("nox")
+    session.install("--pre", "--no-binary", ":all:", "pymssql", "--no-cache", env=env)
     session.install("-e", ".[all,tests]")
 
 
-@nox.session(python=["3.8", "3.9", "3.10", "3.11"])
-@nox.parametrize("airflow", ["2.7", "2.8"])
+@nox.session(python=["3.8", "3.9", "3.10", "3.11", "3.12"])
+@nox.parametrize("airflow", ["3.0.1", "3.0.2"])
 def test(session: nox.Session, airflow) -> None:
     """Run both unit and integration tests."""
     env = {
@@ -134,7 +140,7 @@ def build_docs(session: nox.Session) -> None:
 
 
 @nox.session(python=["3.8", "3.9", "3.10", "3.11"])
-@nox.parametrize("airflow", ["2.7", "2.8"])
+@nox.parametrize("airflow", ["3.0.1", "3.0.2"])
 def generate_constraints(session: nox.Session, airflow) -> None:
     """Generate constraints file"""
     session.install("wheel")

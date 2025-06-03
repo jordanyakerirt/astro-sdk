@@ -66,7 +66,7 @@ class LoadFileOperator(AstroSQLBaseOperator):
         native_support_kwargs: dict | None = None,
         load_options: LoadOptions | list[LoadOptions] | None = None,
         columns_names_capitalization: ColumnCapitalization = "original",
-        enable_native_fallback: bool | None = settings.LOAD_FILE_ENABLE_NATIVE_FALLBACK,
+        enable_native_fallback: bool | None = bool(settings.LOAD_FILE_ENABLE_NATIVE_FALLBACK),
         assume_schema_exists: bool = settings.ASSUME_SCHEMA_EXISTS,
         **kwargs,
     ) -> None:
@@ -102,9 +102,19 @@ class LoadFileOperator(AstroSQLBaseOperator):
                     stacklevel=2,
                 )
 
+        if isinstance(load_options, LoadOptionsList):
+            lopts = load_options
+        elif isinstance(load_options, list):
+            lopts = LoadOptionsList(load_options)
+        elif isinstance(load_options, LoadOptions):
+            lopts = LoadOptionsList(list(load_options))
+        else:
+            lopts = LoadOptionsList(load_options)
+
         self.output_table = output_table
         self.input_file = input_file
-        self.input_file.load_options = load_options
+        if input_file:
+            self.input_file.load_options = lopts
         self.chunk_size = chunk_size
         self.kwargs = kwargs
         self.if_exists = if_exists

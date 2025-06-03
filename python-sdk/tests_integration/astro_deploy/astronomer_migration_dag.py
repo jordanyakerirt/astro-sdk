@@ -8,7 +8,7 @@ from astronomer.starship.operators import AstroMigrationOperator
 with DAG(
     dag_id="astronomer_migration_dag",
     start_date=datetime(2020, 8, 15),
-    schedule_interval=None,
+    schedule=None,
 ) as dag:
     AstroMigrationOperator(  # nosec B106
         task_id="export_meta",

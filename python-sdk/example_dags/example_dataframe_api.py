@@ -73,7 +73,7 @@ def find_worst_covid_month(dfs: List[pd.DataFrame]):
 
 with DAG(
     "example_dataframe",
-    schedule_interval=None,
+    schedule=None,
     start_date=START_DATE,
     catchup=False,
     default_args=default_args,

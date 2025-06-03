@@ -2,7 +2,7 @@ from __future__ import annotations
 
 try:
     # Airflow >= 2.4
-    from airflow.datasets import Dataset
+    from airflow.sdk.definitions.asset import Dataset
 
     DATASET_SUPPORT = True
 except ImportError:

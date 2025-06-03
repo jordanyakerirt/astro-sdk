@@ -7,7 +7,7 @@ from typing import Any, Callable, Mapping
 
 import pandas as pd
 import sqlalchemy
-from airflow.hooks.dbapi import DbApiHook
+from airflow.providers.common.sql.hooks.sql import DbApiHook
 from pandas.io.sql import SQLDatabase
 from sqlalchemy import column, insert, select
 from sqlalchemy.sql import ClauseElement
